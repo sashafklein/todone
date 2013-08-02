@@ -42,6 +42,9 @@ module Todone
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
+    # Core extensions in lib/ext
+    config.autoload_paths += Dir[File.join(Rails.root, "lib", "ext", "*.rb")].each {|l| require l }
+
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
