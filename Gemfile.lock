@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/indirect/haml-rails
+  revision: 6b7a5dead27957aff853b6c82b81fc13543c1aeb
+  specs:
+    haml-rails (0.4)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (>= 3.1, < 4.1)
+      railties (>= 3.1, < 4.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -43,6 +53,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    haml (4.0.3)
+      tilt
     hike (1.2.3)
     i18n (0.6.4)
     jbuilder (1.0.2)
@@ -122,6 +134,8 @@ DEPENDENCIES
   bcrypt-ruby (= 3.0.1)
   bootstrap-sass (= 2.3.2.0)
   coffee-rails (= 4.0.0)
+  haml
+  haml-rails!
   jbuilder (~> 1.0.1)
   jquery-rails
   pg

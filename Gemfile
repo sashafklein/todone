@@ -11,7 +11,8 @@ gem 'bootstrap-sass', '2.3.2.0'
 
 gem 'pg'
 gem 'annotate'
-
+gem 'haml'
+gem 'haml-rails', git: 'https://github.com/indirect/haml-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
