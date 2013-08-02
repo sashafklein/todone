@@ -18,20 +18,22 @@ class Item < ActiveRecord::Base
 
   validate :recent_uniqueness, on: :create
 
-  scope :this_week, -> { where('created_at > ?', 1.week.ago) }
+  default_scope where(archived: false)
+  scope :this_week, -> { where('created_at > ?', 1.week.ago.beginning_of_day) }
+  scope :from_last_three_days, -> { where('created_at >= ?', 3.days.ago.beginning_of_day) }
 
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|
-      if self.sufficiently_similar_to?(item)
-        errors[:base] << "ITEM #{item.description} ALREADY EXISTS" # customize (TBD)
+      if e = self.sufficiently_similar_to?(item)
+        errors[:base] << "#{e} - ITEM: #{item.description}"
       end
     end
   end
 
   def sufficiently_similar_to?(item)
-    tests = [:identical?, :word_overlap?, :character_overlap?]
-    results = tests.map{ |method| self.send(method, item) }
-    results.include?(true)
+    e = self.character_overlap?(item)
+    e ||= self.word_overlap?(item)
+    e
   end
 
   def identical?(item)
@@ -43,7 +45,7 @@ class Item < ActiveRecord::Base
     first_array = self.clean_description.split
     second_array = self.clean_description.split
 
-    first_array.percentage_similarity_to(second_array) > 60 ? true : false
+    first_array.percentage_similarity_to(second_array) > 60 ? "ERROR: Too much word overlap" : false
   end
 
   #Returns true if two descriptions share 60% of their characteres
@@ -51,7 +53,7 @@ class Item < ActiveRecord::Base
     first_array = self.squished_description.split('')
     second_array = self.squished_description.split('')
     
-    first_array.percentage_similarity_to(second_array) > 60 ? true : false
+    first_array.percentage_similarity_to(second_array) > 60 ? "ERROR: Too much character overlap" : false
   end
 
   # Depunctuated and downcased, but not squished
