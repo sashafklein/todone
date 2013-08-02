@@ -12,7 +12,6 @@
 #
 
 class Item < ActiveRecord::Base
-  attr_accessible :archived, :archived_at, :description, :user_id
 
   belongs_to :user
 
