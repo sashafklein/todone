@@ -1,5 +1,6 @@
-%p#notice= notice
-
+.attributes
+  %h1= @user.full_name
+  %p= @user.email
 
 = link_to 'Edit', edit_user_path(@user)
 \|

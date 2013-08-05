@@ -1,0 +1,16 @@
+%h1 Listing items
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @items.each do |item|
+    %tr
+      %td @item.description
+      %td= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Item', new_user_item_path
