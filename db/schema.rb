@@ -21,16 +21,16 @@ ActiveRecord::Schema.define(version: 20130802175033) do
     t.boolean  "archived"
     t.datetime "archived_at"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "password_digest"
     t.boolean  "subscribed",      default: true
   end

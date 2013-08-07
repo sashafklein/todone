@@ -11,17 +11,17 @@ class ItemsController < ApplicationController
 
   # ItemsController.permits(:description)
   def new
-    @item = Item.new
+    @item = @user.items.new
   end
 
   def edit
   end
 
   def create
-    @item = Item.new(item_params)
+    @item = @user.items.new(item_params)
 
     if @item.save
-      redirect_to @item, notice: 'Item was successfully created.'
+      redirect_to user_items_path(@user), notice: 'Item was successfully created.'
     else
       render action: 'new'
     end
@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1
   def update
     if @item.update(item_params)
-      redirect_to @item, notice: 'Item was successfully updated.'
+      redirect_to user_items_path(@user), notice: 'Item was successfully updated.'
     else
       render action: 'edit'
     end
@@ -54,6 +54,6 @@ class ItemsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params[:item]
+      params.require(:item).permit(:description, :archived, :user_id)
     end
 end
