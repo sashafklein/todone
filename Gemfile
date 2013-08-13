@@ -4,7 +4,6 @@ ruby '2.0.0'
 gem 'rails', '4.0.0'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.0.1'
-gem 'bootstrap-sass', '2.3.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -38,6 +37,10 @@ end
 
 group :production do
   gem 'rails_12factor', '0.0.2'
+end
+
+group :test, :development do
+  gem 'rspec-rails', '~> 2.0'
 end
 
 gem 'jquery-rails'
