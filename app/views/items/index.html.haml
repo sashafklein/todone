@@ -1,16 +1,18 @@
-%h1 Listing items
+%h1 Items
 
-%table
+%table.table
   %tr
-    %th
-    %th
-    %th
+    %th Item
+    %th Days Left
+    %th Finished?
 
   - @items.each do |item|
-    %tr
-      %td @item.description
-      %td= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    %tr{ data: { path: archive_item_path(item) } }
+      %td= item.description
+      %td= item.days_left
+      %td= link_to 'All Done', '#', class: "#{center_button("dark_red", "sm")} done"
 
 %br
 
-= link_to 'New Item', new_user_item_path
+.center_button.thick-gray-border-top
+  = render 'form'

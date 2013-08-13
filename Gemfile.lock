@@ -59,6 +59,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    font-awesome-rails (3.2.1.2)
+      railties (>= 3.2, < 5.0)
     haml (4.0.3)
       tilt
     hike (1.2.3)
@@ -152,6 +154,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   coffee-rails (= 4.0.0)
+  font-awesome-rails
   haml
   haml-rails!
   jbuilder (~> 1.0.1)

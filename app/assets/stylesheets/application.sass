@@ -3,10 +3,69 @@
 @import 'bootstrap/css/bootstrap'
 @import 'mixins'
 @import 'colors'
+@import 'modules'
 
-// body
-//   @include noisy-background($background_blue)
+html, body
+  height: 100%
 
-// .span8.page
-//   @include noisy-background($page_manilla)
-//   margin-top: 5vw
+.header
+  margin-bottom: 0
+  
+.container
+
+.footer, .wrap:after
+  height: 50px
+
+.wrap
+  min-height: 100%
+  margin-bottom: 50px
+  &:after
+    content: ""
+  display: block
+
+.gray_button
+  background: $lightGray
+  &:hover
+    background: darken($lightGray, 10)
+
+.dark_gray_button
+  background: darken($lightGray, 10)
+  display: inline
+  color: white
+  &:hover
+    background: darken($lightGray, 20)
+    color: white
+
+.dark_red_button
+  border: none
+  background: darken($errorRed, 10)
+  color: white
+  &:hover
+    background: darken($errorRed, 20)
+    color: white
+
+.form-group
+  input
+    padding: 5px 0px 5px 12px
+    width: 250px
+
+.archived
+  color: $lightGray
+  font-style: italic
+  text-decoration: strikethrough
+  display: inline
+  margin-right: 25px
+
+.thick-gray-border-top
+  border-top: 2px solid $lightGray
+
+.error_group
+  background: lighten($errorRed, 10)
+  padding: 9px 0 1px 0
+  width: 50%
+  margin: auto
+  margin-bottom: 10px
+  i, p
+    color: white
+    font-weight: bold
+

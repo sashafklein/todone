@@ -1,8 +1,11 @@
 = form_for [@user, @item] do |f|
   - if @item.errors.any?
     - @item.errors.full_messages.each do |msg|
-      %p= msg
+      .error_group
+        %i.icon-warning-sign
+        %p= msg
       
-  = f.label :description
-  = f.text_field :description
-  = f.submit 'Save'
+  .form-group
+    = f.text_field :description, placeholder: 'Take over the world...'
+  = f.submit '+ Add New', class: center_button("primary", "normal")
+

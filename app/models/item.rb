@@ -24,7 +24,7 @@ class Item < ActiveRecord::Base
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|
       if e = self.sufficiently_similar_to?(item)
-        errors[:base] << "#{e} - ITEM: #{item.description}"
+        errors[:base] << "#{e} with '#{item.description.truncate(15)}'. Nice try!"
       end
     end
   end
@@ -42,17 +42,17 @@ class Item < ActiveRecord::Base
   #Returns true if two descriptions share 60% of their words
   def word_overlap?(item)
     first_array = self.clean_description.split
-    second_array = self.clean_description.split
+    second_array = item.clean_description.split
 
-    first_array.percentage_similarity_to(second_array) > 60 ? "ERROR: Too much word overlap" : false
+    first_array.percentage_similarity_to(second_array) > 60 ? "Too much word overlap" : false
   end
 
   #Returns true if two descriptions share 60% of their characteres
   def character_overlap?(item)
     first_array = self.squished_description.split('')
-    second_array = self.squished_description.split('')
+    second_array = item.squished_description.split('')
     
-    first_array.percentage_similarity_to(second_array) > 60 ? "ERROR: Too much character overlap" : false
+    first_array.percentage_similarity_to(second_array) > 60 ? "Too much character overlap" : false
   end
 
   # Depunctuated and downcased, but not squished
@@ -62,6 +62,10 @@ class Item < ActiveRecord::Base
 
   def squished_description
     clean_description.split.join('')
+  end
+
+  def days_left
+    3 - ( (Time.now - self.created_at) / 1.day ).to_i
   end
 
 end
