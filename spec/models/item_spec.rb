@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: items
+#
+#  id          :integer          not null, primary key
+#  description :string(255)
+#  archived    :boolean          default(FALSE)
+#  archived_at :datetime
+#  user_id     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 require "spec_helper"
 
 describe Item do

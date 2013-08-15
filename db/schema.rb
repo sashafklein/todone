@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130802175033) do
+ActiveRecord::Schema.define(version: 20130815055224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "items", force: true do |t|
     t.string   "description"
-    t.boolean  "archived"
+    t.boolean  "archived",    default: false
     t.datetime "archived_at"
     t.integer  "user_id"
     t.datetime "created_at"
