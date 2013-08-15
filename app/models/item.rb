@@ -24,7 +24,7 @@ class Item < ActiveRecord::Base
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|
       if e = self.sufficiently_similar_to?(item)
-        errors[:base] << "#{e} with '#{item.description.truncate(15)}'. Nice try!"
+        errors[:base] << "#{e} with '#{item.description.truncate(30)}'. Nice try!"
       end
     end
   end

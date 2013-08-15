@@ -1,16 +1,16 @@
 %h1 Items
 
-%table.table
+%table.table.item_list
   %tr
-    %th Item
-    %th Days Left
-    %th Finished?
+    %th.description Item
+    %th.days Days Left
+    %th.done Finished?
 
   - @items.each do |item|
     %tr{ data: { path: archive_item_path(item) } }
-      %td= item.description
-      %td= item.days_left
-      %td= link_to 'All Done', '#', class: "#{center_button("dark_red", "sm")} done"
+      %td.description= item.description
+      %td.days= item.days_left
+      %td.done= link_to 'All Done', '#', class: "#{center_button("dark_red", "sm")} done"
 
 %br
 
