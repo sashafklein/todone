@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
   respond_to :json
 
   def index
-    @items = @user.items.from_last_three_days
+    @items = @user.items.unarchived.from_last_three_days
     @item = @user.items.new
   end
 
@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @items = @user.items.from_last_three_days
+    @items = @user.items.unarchived.from_last_three_days
     @item = @user.items.new(item_params)
 
     if @item.save
