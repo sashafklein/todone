@@ -1,9 +1,18 @@
 $ ->
-  $('.done').on 'click', (e) ->
-    if confirm "Are you sure? This is final."
-      tr = $(e.target).closest('tr')
-      path = $(tr).data "path"
-      
-      $.post path, (response) ->
-        if response.success
-          $(tr).hide(1000)
+
+  toggleItem = (tr) ->
+    value = $(tr).data 'value'
+    button_text = if value then "Done!" else "Undo!"
+    id = $(tr).data 'id'
+    
+    path = "/items/#{id}/toggle"
+
+    $.post path, (response) ->
+      if response.success
+        $(tr).toggleClass 'to_archive'
+        $(tr).find('p').html(button_text) 
+        $(tr).data "value", !value
+
+  $('.done').click (e) ->
+    tr = $(e.target).closest('tr')
+    toggleItem(tr)

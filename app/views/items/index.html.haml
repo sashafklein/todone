@@ -7,10 +7,11 @@
     %th.done Finished?
 
   - @items.each do |item|
-    %tr{ data: { path: archive_item_path(item) } }
+    %tr{ data: { id: item.id, value: item.archived.to_s } }
       %td.description= item.description
       %td.days= item.days_left
-      %td.done= link_to 'All Done', '#', class: "#{center_button("dark_red", "sm")} done"
+      %td.done 
+        %p{ class: "#{center_button("dark_red", "sm")}" } Done!
 
 %br
 

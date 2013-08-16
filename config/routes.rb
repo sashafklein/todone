@@ -7,7 +7,7 @@ Todone::Application.routes.draw do
   end
 
   resources :items do 
-    post :archive, on: :member
+    post :toggle, on: :member
   end
 
   root to: 'landing#splash'

@@ -70,9 +70,18 @@ html, body
     font-weight: bold
 
 table.item_list
+  tr.to_archive
+    td.days, td.description
+      text-decoration: line-through
+      font-style: italic
+      color: darken($lightGray, 10)
+    td.done
+      p
+        background: $cornflower
   td.description, th.description
     width: 60%
   td.days, th.days
     width: 20%
   td.done, th.done
     width: 20%
+    text-transform: capitalize

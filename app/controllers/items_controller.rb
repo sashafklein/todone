@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :archive]
-  before_action :set_user, except: [:archive]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :toggle]
+  before_action :set_user, except: [:toggle]
 
   respond_to :json
 
@@ -38,8 +38,9 @@ class ItemsController < ApplicationController
     redirect_to items_url, notice: 'Item was successfully destroyed.'
   end
 
-  def archive
-    if @item.update_attribute(:archived, true)
+  def toggle
+    new_value = !@item.archived
+    if @item.update_attribute(:archived, new_value)
       respond_with({success: true}, location: "")
     else
       respond_with({success: false}, location: "")
