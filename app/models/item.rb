@@ -24,7 +24,7 @@ class Item < ActiveRecord::Base
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|
       if e = self.sufficiently_similar_to?(item)
-        errors[:base] << "#{e} with '#{item.description.truncate(30)}'. Nice try!"
+        errors[:base] << "#{e} with '#{item.description.truncate(30)}'!"
       end
     end
   end
@@ -52,7 +52,7 @@ class Item < ActiveRecord::Base
     first_array = self.squished_description.split('')
     second_array = item.squished_description.split('')
     
-    first_array.percentage_similarity_to(second_array) > 60 ? "Too much character overlap" : false
+    first_array.percentage_similarity_to(second_array) > 80 ? "Too much character overlap" : false
   end
 
   # Depunctuated and downcased, but not squished
