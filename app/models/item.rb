@@ -17,9 +17,11 @@ class Item < ActiveRecord::Base
 
   validate :recent_uniqueness, on: :create
 
-  scope :unarchived, -> { where(archived: false) }
-  scope :this_week, -> { where('created_at > ?', 1.week.ago.beginning_of_day) }
-  scope :from_last_three_days, -> { where('created_at >= ?', 3.days.ago.beginning_of_day) }
+  scope :live, -> { unarchived.from_last_three_days}
+  scope :unarchived, -> { where archived: false }
+  scope :archived, -> { where archived: true }
+  scope :this_week, -> { where 'created_at > ?', 1.week.ago.beginning_of_day }
+  scope :from_last_three_days, -> { where 'created_at >= ?', 3.days.ago.beginning_of_day }
 
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|

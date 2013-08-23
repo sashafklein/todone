@@ -4,7 +4,8 @@
   - @users.each do |user|
     %tr
       %td= link_to user.name , user
-      %td #{ link_to pluralize(user.items.count, 'item'), user_items_path(user) }
+      %td= link_to "#{user.items.live.count} live", user_items_path(user)
+      %td= "#{user.items.archived.count} lost forever"
       %td= link_to 'Edit', edit_user_path(user)
       %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

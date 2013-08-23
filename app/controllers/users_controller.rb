@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /users
   def index
@@ -54,5 +55,12 @@ class UsersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email)
+    end
+
+    def authenticate_user!
+      unless current_user == User.find(params[:user_id])
+        flash[:warning] = "Please sign in first."
+        redirect_to root_path
+      end
     end
 end

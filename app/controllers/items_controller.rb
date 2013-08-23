@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy, :toggle]
   before_action :set_user, except: [:toggle]
+  before_action :authenticate_user!
 
   respond_to :json
 
@@ -60,5 +61,12 @@ class ItemsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def item_params
       params.require(:item).permit(:description, :archived, :user_id)
+    end
+
+    def authenticate_user!
+      unless current_user == User.find(params[:id])
+        flash[:warning] = "Please sign in first."
+        redirect_to root_path
+      end
     end
 end
