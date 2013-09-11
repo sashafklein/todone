@@ -41,29 +41,32 @@ class Item < ActiveRecord::Base
     self.squished_description == item.squished_description
   end
 
-  #Returns true if two descriptions share 60% of their words
+  #Returns truthy if two descriptions share too many words
   def word_overlap?(item)
-    first_array = self.clean_description.split
-    second_array = item.clean_description.split
+    first_array = self.clean_description.split.declutter
+    second_array = item.clean_description.split.declutter
 
-    first_array.percentage_similarity_to(second_array) > 60 ? "Too much word overlap" : false
+    first_array.percentage_similarity_to(second_array) > 85 ? "Too much word overlap" : false
   end
 
-  #Returns true if two descriptions share 60% of their characteres
+  #Returns truthy if two descriptions share too many characteres
   def character_overlap?(item)
-    first_array = self.squished_description.split('')
-    second_array = item.squished_description.split('')
+    first_array = self.decluttered_and_squished_description.split('')
+    second_array = item.decluttered_and_squished_description.split('')
     
     first_array.percentage_similarity_to(second_array) > 80 ? "Too much character overlap" : false
   end
 
-  # Depunctuated and downcased, but not squished
   def clean_description 
-    description.downcase.gsub(/[^0-9a-z ]/i, '')
+    description.downcase.clean
   end
 
   def squished_description
-    clean_description.split.join('')
+    clean_description.squish
+  end
+
+  def decluttered_and_squished_description
+    clean_description.split(' ').declutter.join.squish
   end
 
   def days_left

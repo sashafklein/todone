@@ -21,5 +21,10 @@ class Array
 
     numerator.to_f / denomenator.to_f * 100
   end
+
+  def declutter
+    clutter = %w{ the a an those it these them of to by in and is my are }
+    reject{ |word| clutter.include?(word) }
+  end
   
 end
