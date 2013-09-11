@@ -1,6 +1,7 @@
 class IncomingEmail < ActiveRecord::Base
 
-  def self.process(email, body, subject)    
+  def self.process(email, body, subject)
+    email = email.strip_email    
     if User.email_in_db?(email)
       user = User.find_by_email(email)
       line_array = body.split("\n")

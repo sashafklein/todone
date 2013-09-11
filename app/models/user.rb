@@ -35,9 +35,6 @@ class User < ActiveRecord::Base
   end
 
   def self.email_in_db?(email)
-    if email.include?("<") # Trims emails of the format 'First Last <whatever@example.com>'
-      email = email[email.index("<")+1..email.index(">")-1]
-    end
     where(email: email).any?
   end
 
@@ -50,11 +47,11 @@ class User < ActiveRecord::Base
   end
 
   def add_and_subtract_items!(additions, subtractions)
-    additions.each do |description|
+    additions.map{ |line| line.strip_up_to_text }.each do |description|
       create_new_item(description)
     end
 
-    subtractions.each do |item_id|
+    subtractions.map{ |line| line.strip_up_to_text }.each do |item_id|
       archive_item(item_id)
     end
   end
