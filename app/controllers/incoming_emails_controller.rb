@@ -7,6 +7,7 @@ class IncomingEmailsController < ApplicationController
 
     IncomingEmail.process(sender, body, subject)
 
+    puts "EMAIL RECEIVED"
     head 200
   end
 end
