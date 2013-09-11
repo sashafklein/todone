@@ -34,6 +34,10 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def self.email_in_db?
+    where(email: email).any?
+  end
+
   def send_out_morning_email!
     if items.unarchived.count > 0
       UserMailer.seeded_morning_email(self, self.items.unarchived).deliver
@@ -42,4 +46,37 @@ class User < ActiveRecord::Base
     end
   end
 
+  def add_and_subtract_items!(additions, subtractions)
+    additions.each do |description|
+      create_new_item(description)
+    end
+
+    subtractions.each do |item_id|
+      archive_item(item_id)
+    end
+  end
+
+  def create_new_item(description)
+    items.create!(description: description)
+  end
+
+  def archive_item(item_id)
+    return nil unless has_item?(item_id)
+    
+    items.find(item_id).archive!
+  end
+
+  def has_item?(item_id)
+    items.where(id: item_id).any?
+  end
+
+  def resubscribe!
+    self.subscribed = true
+    self.save!
+  end
+
+  def unsubscribe!
+    self.subscribed = false
+    self.save!
+  end
 end

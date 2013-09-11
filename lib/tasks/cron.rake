@@ -3,5 +3,5 @@ task :send_out_emails => :environment do
 end
 
 task :archive_old_messages => :environment do
-  Item.unarchived.older_than_in_days(3).find_each { |item| item.archive! }
+  Item.unarchived.older_than_in_days(4).find_each { |item| item.archive! }
 end

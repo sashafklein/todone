@@ -9,8 +9,8 @@
     %th Item Number
     %th Description
     %th Days Left
-  - @items.each_with_index do |item, index|
+  - @items.each do |item|
   %tr
-    %td= index + 1
+    %td= item.id
     %td= item.description
     %td= item.days_left

@@ -15,7 +15,7 @@ class Item < ActiveRecord::Base
 
   belongs_to :user
 
-  validate :recent_uniqueness, on: :create
+  # validate :recent_uniqueness, on: :create
 
   scope :live, -> { unarchived.from_last_three_days}
   scope :unarchived, -> { where archived: false }
@@ -87,5 +87,4 @@ class Item < ActiveRecord::Base
   def archive!
     toggle!
   end
-
 end
