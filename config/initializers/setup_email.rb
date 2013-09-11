@@ -5,5 +5,6 @@ ActionMailer::Base.smtp_settings = {
   :password       => ENV['MAILGUN_SMTP_PASSWORD'],
   :domain         => 'todone.us',
   :authentication => :plain,
+  :content_type   => 'text/html'
 }
 ActionMailer::Base.delivery_method = :smtp
