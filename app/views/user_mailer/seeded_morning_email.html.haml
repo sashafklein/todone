@@ -1,16 +1,17 @@
 %h1 Respond to add/remove items
-%p Lines starting with '+' will be added
-%p Remove lines by typing '-' followed by the item number (eg '-4')
-%p Type 'UNSUBSCRIBE ME' as its own line to be unsubscribed
+%ul
+  %li Lines starting with '+' will be added
+  %li Remove lines by typing '-' followed by the item number (eg '-4')
+  %li Type 'UNSUBSCRIBE ME' as its own line to be unsubscribed
 
 %h1 Today's List
-%table
+%table.item_list
   %tr 
     %th Item Number
-    %th Description
-    %th Days Before Archived
+    %th.description Description
+    %th.days Days Before Archived
   - @items.each do |item|
     %tr
-      %td= item.id
-      %td= item.description
-      %td= item.days_left
+      %td.description= item.id
+      %td.days= item.description
+      %td.to_archive= item.days_left

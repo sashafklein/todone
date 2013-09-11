@@ -50,23 +50,24 @@ class ItemsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_item
-      @item = Item.find(params[:id])
-    end
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
-    def set_user
-      @user = User.find(params[:user_id])
-    end
+  def set_user
+    @user = User.find(params[:user_id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def item_params
-      params.require(:item).permit(:description, :archived, :user_id)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def item_params
+    params.require(:item).permit(:description, :archived, :user_id)
+  end
 
-    def authenticate_user!
-      unless current_user == User.find(params[:id])
-        flash[:warning] = "Please sign in first."
-        redirect_to root_path
-      end
+  def authenticate_user!
+    unless current_user == User.find(params[:id])
+      flash[:warning] = "Please sign in first."
+      redirect_to root_path
     end
+  end
+  
 end
