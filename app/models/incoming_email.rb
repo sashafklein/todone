@@ -16,10 +16,4 @@ class IncomingEmail < ActiveRecord::Base
       UserMailer.must_subscribe(email).deliver
     end
   end
-
-  def self.resubscribe!(email)
-    if User.email_in_db?(email)
-      User.find_by_email(email).resubscribe!
-    end
-  end
 end

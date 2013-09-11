@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def self.email_in_db?
+  def self.email_in_db?(email)
     where(email: email).any?
   end
 
