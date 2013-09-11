@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy, :toggle]
   before_action :set_user, except: [:toggle]
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   respond_to :json
 
