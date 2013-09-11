@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   # GET /users
   def index
@@ -47,20 +47,22 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email)
+  end
 
-    def authenticate_user!
-      unless current_user == User.find(params[:user_id])
-        flash[:warning] = "Please sign in first."
-        redirect_to root_path
-      end
+  def authenticate_user!
+    unless current_user == User.find(params[:user_id])
+      flash[:warning] = "Please sign in first."
+      redirect_to root_path
     end
+  end
+  
 end

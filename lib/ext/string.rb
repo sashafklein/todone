@@ -15,5 +15,4 @@ class String
   def strip_email
     include?("<") ? self[self.index("<")+1..self.index(">")-1] : self
   end
-
 end
