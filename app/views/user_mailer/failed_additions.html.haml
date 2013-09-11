@@ -1,0 +1,13 @@
+%h2 One or more new items were rejected because of excessive similarity to other items
+
+%table
+  %tr 
+    %th First Item
+    %th Second Item
+  - @item_array.each do |pair|
+    %tr
+      %td= pair[0].description
+      %td= pair[1].description
+
+%p To avoid future rejection, make your item less similar.
+

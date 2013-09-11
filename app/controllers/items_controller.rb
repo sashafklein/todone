@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   respond_to :json
 
   def index
-    @items = @user.items.unarchived.from_last_three_days
+    @items = @user.items.unarchived.from_last_in_days(3)
     @item = @user.items.new
   end
 
@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @items = @user.items.unarchived.from_last_three_days
+    @items = @user.items.unarchived.from_last_in_days(3)
     @item = @user.items.new(item_params)
 
     if @item.save
@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
 
   def toggle
     new_value = !@item.archived
-    if @item.update_attribute(:archived, new_value)
+    if @item.toggle!(new_value)
       respond_with({success: true}, location: "")
     else
       respond_with({success: false}, location: "")

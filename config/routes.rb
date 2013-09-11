@@ -10,6 +10,8 @@ Todone::Application.routes.draw do
     post :toggle, on: :member
   end
 
+  post :receive, to: 'incoming_emails#receive'
+
   root to: 'landing#splash'
 
 end

@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   has_secure_password
 
   before_save { self.email = email.downcase }
+
+  scope :subscribed, -> { where(subscribed: true) }
   
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -30,6 +32,14 @@ class User < ActiveRecord::Base
   
   def name
     "#{first_name} #{last_name}"
+  end
+
+  def send_out_morning_email!
+    if items.unarchived.count > 0
+      UserMailer.seeded_morning_email(self, self.items.unarchived).deliver
+    else
+      UserMailer.blank_morning_email(self).deliver
+    end
   end
 
 end

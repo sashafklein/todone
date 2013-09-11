@@ -21,7 +21,8 @@ class Item < ActiveRecord::Base
   scope :unarchived, -> { where archived: false }
   scope :archived, -> { where archived: true }
   scope :this_week, -> { where 'created_at > ?', 1.week.ago.beginning_of_day }
-  scope :from_last_three_days, -> { where 'created_at >= ?', 3.days.ago.beginning_of_day }
+  scope :from_last_in_days, lambda { |num_days| where 'created_at >= ?', num_days.days.ago.beginning_of_day }
+  scope :older_than_in_days, lambda { |num_days| where 'created_at < ?', num_days.days.ago.beginning_of_day }
 
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|
@@ -71,6 +72,20 @@ class Item < ActiveRecord::Base
 
   def days_left
     3 - ( (Time.now - self.created_at) / 1.day ).to_i
+  end
+
+  def toggle!(value = true)
+    self.archived = value
+    self.archived_at = value ? Time.now : nil
+    self.save!
+  end
+
+  def unarchive!
+    toggle!(false)
+  end
+
+  def archive!
+    toggle!
   end
 
 end
