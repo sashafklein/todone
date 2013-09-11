@@ -35,6 +35,9 @@ class User < ActiveRecord::Base
   end
 
   def self.email_in_db?(email)
+    if email.include?("<") # Trims emails of the format 'First Last <whatever@example.com>'
+      email = email[email.index("<")+1..email.index(">")-1]
+    end
     where(email: email).any?
   end
 
