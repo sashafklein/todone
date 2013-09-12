@@ -10,6 +10,11 @@ Todone::Application.routes.draw do
     post :toggle, on: :member
   end
 
+  resources :sessions, only: [:new, :create, :destroy]
+    match '/signup',  to: 'users#new',            via: 'get'
+    match '/signin',  to: 'sessions#new',         via: 'get'
+    match '/signout', to: 'sessions#destroy',     via: 'delete'
+
   post :receive, to: 'incoming_emails#receive'
 
   root to: 'landing#splash'

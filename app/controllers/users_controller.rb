@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   # GET /users
   def index
@@ -25,7 +25,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
+      sign_in @user
+      flash[:success] = "Welcome to ToDone!"
+      redirect_to user_items_path(@user)
     else
       render action: 'new'
     end

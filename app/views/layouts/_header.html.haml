@@ -1,9 +1,13 @@
 .navbar.header
   .col-lg-8.col-lg-offset-2
     = link_to "ToDone", root_path, class: 'navbar-brand'
-    %ul.nav.navbar-nav
-      %li= link_to "How we Roll", '#'
-      %li= link_to "Get 'er Done", '#'
+    - if signed_in?
+      %ul.nav.navbar-nav
+        %li= link_to "Profile", current_user 
+        %li= link_to "Get 'er Done", user_items_path(current_user)
     %ul.nav.navbar-nav.pull-right
-      %li= link_to "Sign In", '#'
-      %li= link_to "Sign Out", '#'
+      - if signed_in?
+        %li= link_to "Sign Out", signout_path, method: "delete"
+      - else
+        %li= link_to "Sign In", signin_path
+        %li= link_to "Register", signup_path

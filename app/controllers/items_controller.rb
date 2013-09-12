@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy, :toggle]
   before_action :set_user, except: [:toggle]
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   respond_to :json
 
@@ -64,7 +64,7 @@ class ItemsController < ApplicationController
   end
 
   def authenticate_user!
-    unless current_user == User.find(params[:id])
+    unless current_user == User.find(params[:user_id])
       flash[:warning] = "Please sign in first."
       redirect_to root_path
     end
