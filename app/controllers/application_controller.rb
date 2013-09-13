@@ -2,13 +2,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include SessionsHelper
 
+  def authenticate_signed_in!
+    unless signed_in?
+      flash[:error] = "Please sign in first."
+      redirect_to root_path
+    end
+  end
+
   def authenticate_user!
     unless current_user.admin? || current_user == User.find(id)
-      if signed_in?
-        flash[:error] = "That's not your #{page}!"
-      else
-        flash[:error] = "Please sign in first."
-      end
+      flash[:error] = "That's not your #{page}!"
       redirect_to root_path
     end
   end
