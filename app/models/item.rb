@@ -23,6 +23,7 @@ class Item < ActiveRecord::Base
   scope :this_week, -> { where 'created_at > ?', 1.week.ago.beginning_of_day }
   scope :from_last_in_days, lambda { |num_days| where 'created_at >= ?', num_days.days.ago.beginning_of_day }
   scope :older_than_in_days, lambda { |num_days| where 'created_at < ?', num_days.days.ago.beginning_of_day }
+  default_scope -> { order('created_at DESC') }
 
   def recent_uniqueness
     Item.where(user_id: self.user.id).this_week.each do |item|
