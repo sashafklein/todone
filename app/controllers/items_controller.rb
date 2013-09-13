@@ -62,12 +62,5 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:description, :archived, :user_id)
   end
-
-  def authenticate_user!
-    unless current_user == User.find(params[:user_id])
-      flash[:warning] = "Please sign in first."
-      redirect_to root_path
-    end
-  end
   
 end

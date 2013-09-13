@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_admin!, only: [:index, :destroy]
+  before_action :authenticate_user!, except: :index
 
   # GET /users
   def index
@@ -60,11 +61,4 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :email)
   end
 
-  def authenticate_user!
-    unless current_user == User.find(params[:user_id])
-      flash[:warning] = "Please sign in first."
-      redirect_to root_path
-    end
-  end
-  
 end
