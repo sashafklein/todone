@@ -1,4 +1,7 @@
 class IncomingEmailsController < ApplicationController
+  
+  skip_before_filter :verify_authenticity_token
+  
   def receive
     sender  = params['from']
     subject = params['subject']
@@ -9,4 +12,5 @@ class IncomingEmailsController < ApplicationController
 
     head 200
   end
+  
 end
