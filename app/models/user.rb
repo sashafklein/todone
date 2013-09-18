@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   end
 
   def send_out_morning_email!
-    if items.unarchived.count > 0
+    if items.unarchived.begun.count > 0
       UserMailer.seeded_morning_email(self, self.items.unarchived).deliver
     else
       UserMailer.blank_morning_email(self).deliver
@@ -48,17 +48,30 @@ class User < ActiveRecord::Base
   end
 
   def add_and_subtract_items!(additions, subtractions)
-    additions.map{ |line| line.strip_up_to_text }.each do |description|
-      create_new_item(description)
-    end
+    add(additions)
+    subtract(subtractions)
+  end
 
-    subtractions.map{ |line| line.strip_up_to_text }.each do |item_id|
+  def add(additions)
+    additions.map(&:strip_up_to_text).each do |description|
+      build_and_time_release_item(description)
+    end
+  end
+
+  def build_and_time_release_item(description)
+    time = description.parse_for_time
+    description = description.split('>>')[0]
+    create_new_item(description, time)
+  end
+
+  def subtract(subtractions)
+    subtractions.map(&:strip_up_to_text).each do |item_id|
       archive_item(item_id)
     end
   end
 
-  def create_new_item(description)
-    items.create!(description: description)
+  def create_new_item(description, time = Time.now)
+    items.create!(description: description, created_at: time)
   end
 
   def archive_item(item_id)

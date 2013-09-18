@@ -23,6 +23,7 @@ class Item < ActiveRecord::Base
   scope :this_week, -> { where 'created_at > ?', 1.week.ago.beginning_of_day }
   scope :from_last_in_days, lambda { |num_days| where 'created_at >= ?', num_days.days.ago.beginning_of_day }
   scope :older_than_in_days, lambda { |num_days| where 'created_at < ?', num_days.days.ago.beginning_of_day }
+  scope :begun, -> { where 'created_at > ?', Time.now }
   default_scope -> { order('created_at DESC') }
 
   def recent_uniqueness
@@ -73,6 +74,10 @@ class Item < ActiveRecord::Base
 
   def days_left
     3 - ( (Time.now - self.created_at) / 1.day ).to_i
+  end
+
+  def email_days_left
+    days_left <= 0 ? 0 : days_left
   end
 
   def toggle!(value = true)
