@@ -22,6 +22,10 @@ module TimeMethods
     self.convert > time.convert
   end
 
+  def utc_beginning_of_day
+    convert.now.beginning_of_day.utc.beginning_of_day
+  end
+
   def before?(time)
     self.convert < time.convert
   end
