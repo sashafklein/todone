@@ -114,8 +114,8 @@ class Item < ActiveRecord::Base
   end
 
   def self.build_and_time_release_item(item_description, user_id)
-    time = item_description.parse_for_time
+    time = item_description.parse_for_time || Time.now
     cleaned_description = item_description.split('>>')[0]
-    User.find(user_id).create_new_item(cleaned_description, time)
+    Item.create!(user_id: user_id, description: cleaned_description, created_at: time)
   end
 end

@@ -1,10 +1,12 @@
 class IncomingEmail < ActiveRecord::Base
 
-  def self.process(email, body, subject)
-    email = email.strip_email    
+  def self.process(options)
+    email = options[:email].strip_email
+    line_array = options[:body].split("\n")
+    subject = options[:subject]
+
     if User.email_in_db?(email)
       user = User.find_by_email(email)
-      line_array = body.split("\n")
 
       user.resubscribe! if line_array.include?("RESUBSCRIBE ME") || subject == "RESUBSCRIBE ME"
       user.unsubscribe! if line_array.include?("UNSUBSCRIBE ME") || subject == "UNSUBSCRIBE ME"

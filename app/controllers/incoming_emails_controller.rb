@@ -8,7 +8,7 @@ class IncomingEmailsController < ApplicationController
 
     body = params['stripped-text']
 
-    IncomingEmail.process(sender, body, subject)
+    IncomingEmail.process(email: sender, body: body, subject: subject)
 
     head 200
   end

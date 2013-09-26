@@ -59,10 +59,6 @@ class User < ActiveRecord::Base
     Item.batch_subtract(subtractions, id)
   end
 
-  def create_new_item(description, time = Time.now)
-    items.create!(description: description, created_at: time)
-  end
-
   def has_item?(item_id)
     items.where(description: item_id).any?
   end
