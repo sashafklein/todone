@@ -6,11 +6,11 @@ class IncomingEmail < ActiveRecord::Base
       user = User.find_by_email(email)
       line_array = body.split("\n")
 
-      user.resubscribe! if line_array.include? "RESUBSCRIBE ME" || subject == "RESUBSCRIBE ME"
-      user.unsubscribe! if line_array.include? "UNSUBSCRIBE ME" || subject == "UNUSUBSCRIBE ME"
+      user.resubscribe! if line_array.include?("RESUBSCRIBE ME") || subject == "RESUBSCRIBE ME"
+      user.unsubscribe! if line_array.include?("UNSUBSCRIBE ME") || subject == "UNSUBSCRIBE ME"
 
-      additions     = line_array.select{ |line| line[0] == "+" }
       subtractions  = line_array.select{ |line| line[0] == "-" }
+      additions     = line_array.select{ |line| line[0] == "+" }
 
       user.add_and_subtract_items!(additions, subtractions)
     else

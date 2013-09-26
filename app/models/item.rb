@@ -93,4 +93,29 @@ class Item < ActiveRecord::Base
   def archive!
     toggle!
   end
+
+  def self.batch_subtract(description_array, user_id)
+    user_items = unarchived.where(user_id: user_id)
+    description_array.map(&:strip_up_to_text).each do |item_description|
+      archive_by_description(item_description, user_items)
+    end
+  end
+
+  def self.archive_by_description(item_description, item_relation)
+    if item_relation.where(description: item_description).any?
+      item_relation.find_by_description(item_description).archive!
+    end
+  end
+
+  def self.batch_add(description_array, user_id)
+    description_array.map(&:strip_up_to_text).each do |item_description|
+      build_and_time_release_item(item_description, user_id)
+    end
+  end
+
+  def self.build_and_time_release_item(item_description, user_id)
+    time = item_description.parse_for_time
+    cleaned_description = item_description.split('>>')[0]
+    User.find(user_id).create_new_item(cleaned_description, time)
+  end
 end

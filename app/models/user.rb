@@ -24,7 +24,6 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :first_name, :last_name, :email
-  validates :password, length: { minimum: 6 }
   validates_confirmation_of :password, if: lambda { |m| m.password.present? }
   validates :email, 
             uniqueness: { case_sensitive: false }, 
@@ -53,35 +52,19 @@ class User < ActiveRecord::Base
   end
 
   def add(additions)
-    additions.map(&:strip_up_to_text).each do |description|
-      build_and_time_release_item(description)
-    end
-  end
-
-  def build_and_time_release_item(description)
-    time = description.parse_for_time
-    description = description.split('>>')[0]
-    create_new_item(description, time)
+    Item.batch_add(additions, id)
   end
 
   def subtract(subtractions)
-    subtractions.map(&:strip_up_to_text).each do |item_id|
-      archive_item(item_id)
-    end
+    Item.batch_subtract(subtractions, id)
   end
 
   def create_new_item(description, time = Time.now)
     items.create!(description: description, created_at: time)
   end
 
-  def archive_item(item_id)
-    return nil unless has_item?(item_id)
-    
-    items.find(item_id).archive!
-  end
-
   def has_item?(item_id)
-    items.where(id: item_id).any?
+    items.where(description: item_id).any?
   end
 
   def resubscribe!
